@@ -21,6 +21,7 @@ export default {
             }
             catch (errors) {
                 console.log(errors)
+                return errors.response.data.errors
             }  
             finally {
                 await context.commit('PRELOADER', false)
@@ -34,7 +35,7 @@ export default {
                 const response = await axios.get(`/api/v1/categories/${id}`)
                 return response
             } catch (errors) {
-                
+                return errors.response.data.errors
             } finally {
                 await context.commit('PRELOADER', false)
             }
@@ -49,8 +50,8 @@ export default {
                 return response                   
             }
             catch (errors) {
-               // console.log(errors)
-                return errors
+                console.log(errors.response.data.errors)
+                return errors.response.data.errors
             }  
             finally {
                 await context.commit('PRELOADER', false)
@@ -64,7 +65,8 @@ export default {
                 const response = await axios.put(`/api/v1/categories/${params.id}`, params)
                 return response
             } catch (errors) {
-                console.log(errors)
+                console.log(errors.response.data.errors)
+                return errors.response.data.errors
             } finally {
                 await context.commit('PRELOADER', false)
             }

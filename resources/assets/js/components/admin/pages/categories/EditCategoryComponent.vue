@@ -21,19 +21,26 @@ export default {
             require: true
         }
     },
-    async created() {
-        try {
-            const response = await this.$store.dispatch('loadCategory', this.id)
-            this.category = response.data
-        } catch (errors) {
-            console.log(error)
-        }   
+    created() {
+         this.loadCategory()
     },
     data () {
         return {
             category: {
 
             }
+        }
+    },
+    methods: {
+        async loadCategory () {
+            try {
+                const response = await this.$store.dispatch('loadCategory', this.id)
+                this.category = response.data                
+            } catch (errors) {               
+                this.$snotify.error('Categoria não encontrada', '404')
+
+                this.$router.push({ name: 'admin.categories' })
+            }  
         }
     },
     components: {

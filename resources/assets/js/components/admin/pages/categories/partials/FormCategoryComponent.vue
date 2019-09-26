@@ -1,7 +1,9 @@
 <template>
     <div>
         <form class="form" @submit.prevent="onSubmit">
-            <div class="form-group">
+            <!-- Se existir o atributo errors, então adiciona a classe-->
+            <div :class="['form-group', {'has-error' : errors.name}]">
+                <div v-if="errors.name">{{ errors.name[0] }}</div>
                 <input type="text" v-model="category.name" class="form-control" placeholder="Nome da Categoria">
             </div>
             <div class="form-group">
@@ -32,16 +34,30 @@ export default {
             default: false,
         }
     },
+    data () {
+        return {
+            errors: {}
+        }
+    },
     methods: {
         async onSubmit() {
 
             const action = this.updating ? 'updateCategory' : 'storeCategory'
 
             const response = await this.$store.dispatch(action, this.category)
-                        
-            if(response) {
+                      
+            if(response.data) {
                 console.log('teste data ' + JSON.stringify(response.data))
+
+                this.$snotify.success('Sucesso ao cadastrar')
+
                 this.$router.push({ name: 'admin.categories'})
+            }else {
+                 console.log('teste data ' + JSON.stringify(response))
+
+                 this.$snotify.error('Algo errado')
+
+                 this.errors = response
             }
 
         }
@@ -50,5 +66,6 @@ export default {
 </script>
 
 <style scope>
-
+.has-error { color: red}
+.has-error input { border: 1px solid red; }
 </style>
