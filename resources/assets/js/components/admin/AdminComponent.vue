@@ -8,7 +8,10 @@
                 <router-link :to="{name: 'admin.categories' }" class="nav-link">Categorias ({{ totalCategories.length}})</router-link>
             </li>
             <li class="nav-item" v-else>
-                <router-link :to="{name: 'admin.categories' }">Categorias </router-link>
+                <router-link :to="{name: 'admin.categories' }" class="nav-link">Categorias </router-link>
+            </li>
+            <li>
+                <router-link :to="{name: 'admin.products'}" class="nav-link">Produtos</router-link>
             </li>
         </ul>
         <div class="container">

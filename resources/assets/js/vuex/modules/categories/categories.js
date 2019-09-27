@@ -10,11 +10,11 @@ export default {
         }
     },
     actions: {
-        async loadCategories(context){            
+        async loadCategories(context, params){            
             await context.commit('PRELOADER', true)
             
             try {       
-                const response = await axios.get('/api/v1/categories')
+                const response = await axios.get('/api/v1/categories', {params})
               //  console.log('actions ' + JSON.stringify( response.data) )
                 
                 await context.commit('LOAD_CATEGORIES', response)
@@ -34,9 +34,11 @@ export default {
             try {
                 const response = await axios.get(`/api/v1/categories/${id}`)
                 return response
-            } catch (errors) {
+            } 
+            catch (errors) {
                 return errors.response.data.errors
-            } finally {
+            } 
+            finally {
                 await context.commit('PRELOADER', false)
             }
         },
@@ -70,6 +72,17 @@ export default {
             } finally {
                 await context.commit('PRELOADER', false)
             }
+        },
+
+        async destroyCategory (context, id) {
+            await context.commit('PRELOADER', true)
+
+            try {
+               await axios.delete(`/api/v1/categories/${id}`)               
+            } catch (error) {
+               return error
+            } 
+            
         }
     },
     getters: {

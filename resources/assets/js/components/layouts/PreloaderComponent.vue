@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <div class="preloader" v-show="preloader">
-            <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
+    <div class="preloader" v-show="preloader">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
 </template>
