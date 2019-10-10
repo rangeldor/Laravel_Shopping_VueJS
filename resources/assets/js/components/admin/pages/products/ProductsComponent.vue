@@ -2,6 +2,17 @@
     <div>
         <h1>Listagem de Produtos</h1>
 
+        <div class="row">
+            <div class="col">
+                #add
+            </div>
+            <div class="col">
+                <search 
+                    @search="searchForm">
+                </search>
+            </div>
+        </div>
+
         <table class="table table-dark">
             <thead>
                 <tr>
@@ -22,25 +33,28 @@
                 </tbody>
         </table>
 
-        <ul v-if="products.last_page > 1">
-            <li v-if="products.current_page != 1">
-                <a href="#" @click.prevent="loadProducts(products.current_page - 1)">
-                    Anterior 
-                </a>
-            </li>
-            <li v-if="products.current_page < products.last_page">
-                <a href="#" @click.prevent="loadProducts(products.current_page + 1)">
-                    Próximo 
-                </a>
-            </li>
-        </ul>
+        <pagination
+            :pagination="products"
+            :offset="6"
+            @paginate="loadProducts">
+        </pagination>
+        
     </div>
 </template>
 
 <script>
+
+import PaginationComponent from '../../../layouts/PaginationComponent'
+import SearchComponentVue from '../../layouts/SearchComponent'
+
 export default {
     created() {
         this.loadProducts(1)
+    },
+    data () {
+        return {
+            search: '',
+        }
     },
     computed: {
         products () {        
@@ -48,7 +62,8 @@ export default {
         },
         params () {
             return {
-                page: this.products.current_page
+                page: this.products.current_page,
+                filter: this.search,
             }
         }
     },
@@ -56,7 +71,17 @@ export default {
         loadProducts(page) {
             //"this.$store.dispatch('')" Recebe uma action
             this.$store.dispatch('loadProducts', {...this.params, page})
+        },
+
+        searchForm (filter) {
+            this.search = filter
+
+            this.loadProducts(1)
         }
+    },
+    components: {
+        pagination: PaginationComponent,
+        search: SearchComponentVue
     }
 }
 </script>
