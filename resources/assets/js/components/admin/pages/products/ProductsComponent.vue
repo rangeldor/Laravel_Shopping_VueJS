@@ -4,7 +4,18 @@
 
         <div class="row">
             <div class="col">
-                #add
+                <button class="btn btn-success" @click.prevent="showModal = true">
+                    Novo
+                </button>
+
+                <vodal
+                    :show="showModal"
+                    animation="zoom"
+                    @hide="hideModal"
+                    :width="600"
+                    :height="500">
+                    <product-form></product-form>
+                </vodal>
             </div>
             <div class="col">
                 <search 
@@ -43,9 +54,11 @@
 </template>
 
 <script>
+import Vodal from 'vodal'
 
 import PaginationComponent from '../../../layouts/PaginationComponent'
 import SearchComponentVue from '../../layouts/SearchComponent'
+import ProductForm from './partials/ProductForm'
 
 export default {
     created() {
@@ -54,6 +67,7 @@ export default {
     data () {
         return {
             search: '',
+            showModal: false,
         }
     },
     computed: {
@@ -77,11 +91,17 @@ export default {
             this.search = filter
 
             this.loadProducts(1)
+        },
+
+        hideModal () {
+            this.showModal = false
         }
     },
     components: {
         pagination: PaginationComponent,
-        search: SearchComponentVue
+        search: SearchComponentVue,
+        Vodal,
+        ProductForm,
     }
 }
 </script>
