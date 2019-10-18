@@ -1,56 +1,48 @@
 <template>
-    <div>
-        <h1>Listagem de Produtos</h1>
+<div>
+    <h1>Listagem de Produtos</h1>
 
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-success" @click.prevent="showModal = true">
-                    Novo
-                </button>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success" @click.prevent="showModal = true">
+                Novo
+            </button>
 
-                <vodal
-                    :show="showModal"
-                    animation="zoom"
-                    @hide="hideModal"
-                    :width="600"
-                    :height="500">
-                    <product-form></product-form>
-                </vodal>
-            </div>
-            <div class="col">
-                <search 
-                    @search="searchForm">
-                </search>
-            </div>
+            <vodal :show="showModal" animation="zoom" @hide="hideModal" :width="600" :height="500">
+                <product-form @success="success" :product="product" :update="update">
+                </product-form>
+            </vodal>
         </div>
-
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th>Imagem</th>
-                    <th>Nome</th>
-                    <th width="200">Ações</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="product in products.data" :key="product.id">
-                        <td>...</td>
-                        <td>{{ product.name }}</td>
-                        <td>
-                            <a href="#" class="btn btn-info">Editar</a>
-                            <a href="#" class="btn btn-danger">Deletar</a>
-                        </td>
-                    </tr>
-                </tbody>
-        </table>
-
-        <pagination
-            :pagination="products"
-            :offset="6"
-            @paginate="loadProducts">
-        </pagination>
-        
+        <div class="col">
+            <search @search="searchForm">
+            </search>
+        </div>
     </div>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th width="200">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="product in products.data" :key="product.id">
+                <td>...</td>
+                <td>{{ product.name }}</td>
+                <td>
+                    <a href="#" @click.prevent="edit(product.id)" class="btn btn-info">Editar</a>
+                    <a href="#" class="btn btn-danger">Deletar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pagination :pagination="products" :offset="6" @paginate="loadProducts">
+    </pagination>
+
+</div>
 </template>
 
 <script>
@@ -64,17 +56,25 @@ export default {
     created() {
         this.loadProducts(1)
     },
-    data () {
+    data() {
         return {
             search: '',
             showModal: false,
+            product: {
+                id: '',
+                name: '',
+                description: '',
+                //image: '',
+                category_id: '',
+            },
+            update: false
         }
     },
     computed: {
-        products () {        
+        products() {
             return this.$store.state.products.items
         },
-        params () {
+        params() {
             return {
                 page: this.products.current_page,
                 filter: this.search,
@@ -84,17 +84,36 @@ export default {
     methods: {
         loadProducts(page) {
             //"this.$store.dispatch('')" Recebe uma action
-            this.$store.dispatch('loadProducts', {...this.params, page})
+            this.$store.dispatch('loadProducts', {
+                ...this.params,
+                page
+            })
         },
 
-        searchForm (filter) {
+        async edit(id) {
+            const response = await this.$store.dispatch('loadProduct', id)
+
+            this.product = response
+
+            this.showModal = true
+
+            this.update = true
+        },
+
+        searchForm(filter) {
             this.search = filter
 
             this.loadProducts(1)
         },
 
-        hideModal () {
+        hideModal() {
             this.showModal = false
+        },
+
+        success() {
+            this.hideModal()
+
+            this.loadProducts(1)
         }
     },
     components: {
