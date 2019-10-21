@@ -91,6 +91,26 @@ export default {
         finally {
             //context.commit('PRELOADER', false)
         } 
-    } 
+    },
+    
+    async destroyProduct(context, id) {
+        context.commit('PRELOADER', true)
+        
+        try { 
+            const response = await axios.delete(`${URL_BASE}${RESOURCE}/${id}`)
+
+            context.commit('PRELOADER', false)
+            
+            return response                   
+        }
+        catch (error) {
+            context.commit('PRELOADER', false)
+
+            return error
+        }  
+        finally {
+            //context.commit('PRELOADER', false)
+        } 
+    },   
     
 }

@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col">
-            <button class="btn btn-success" @click.prevent="showModal = true">
+            <button class="btn btn-success" @click.prevent="create">
                 Novo
             </button>
 
@@ -33,7 +33,7 @@
                 <td>{{ product.name }}</td>
                 <td>
                     <a href="#" @click.prevent="edit(product.id)" class="btn btn-info">Editar</a>
-                    <a href="#" class="btn btn-danger">Deletar</a>
+                    <destroy :item="product" @destroy="destroy"></destroy>
                 </td>
             </tr>
         </tbody>
@@ -51,6 +51,7 @@ import Vodal from 'vodal'
 import PaginationComponent from '../../../layouts/PaginationComponent'
 import SearchComponentVue from '../../layouts/SearchComponent'
 import ProductForm from './partials/ProductForm'
+import ButtonDestroyComponent from '../../layouts/ButtonDestroyComponent'
 
 export default {
     created() {
@@ -90,7 +91,18 @@ export default {
             })
         },
 
+        create() {
+            this.update = false
+
+            this.showModal = true
+
+            this.reset()
+        },
+
         async edit(id) {
+
+            this.reset()
+            
             const response = await this.$store.dispatch('loadProduct', id)
 
             this.product = response
@@ -114,6 +126,28 @@ export default {
             this.hideModal()
 
             this.loadProducts(1)
+        },
+
+        reset() {
+            this.product = {
+                id: '',
+                name: '',
+                description: '',
+                //image: '',
+                category_id: '',
+            }
+        },
+
+        async destroy (id) {
+            const response = await this.$store.dispatch('destroyProduct', id)
+      
+            if(response.status == 204) {
+                this.$snotify.success('Deletado com sucesso!')
+
+                this.loadProducts(1)
+            } else {
+                this.$snotify.error(`Erro ao deletar!`)
+            }
         }
     },
     components: {
@@ -121,6 +155,7 @@ export default {
         search: SearchComponentVue,
         Vodal,
         ProductForm,
+        destroy: ButtonDestroyComponent
     }
 }
 </script>

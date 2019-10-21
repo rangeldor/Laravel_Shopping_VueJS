@@ -37,16 +37,7 @@ export default {
         },
         product: {
             require: false,
-            type: Object,
-            default: () => {
-                return {
-                    id: '',
-                    name: '',
-                    description: '',
-                    //image: '',
-                    category_id: '',
-                }
-            }
+            type: Object
         }
     },
     data() {
@@ -63,7 +54,7 @@ export default {
         async onSubmit() {
             let action = this.update ? 'updateProduct' : 'storeProduct'
             let msgSuccess =  this.update ? 'Sucesso ao atualizar!' : 'Sucesso ao cadastrar!'
-console.log(action)
+
             const response = await this.$store.dispatch(action, this.product)
 
             if (response.data) {
