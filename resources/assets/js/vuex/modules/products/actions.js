@@ -2,6 +2,11 @@ import axios from 'axios'
 import { URL_BASE } from '../../../config/configs'
 
 const RESOURCE = 'products'
+const CONFIGS = {
+    headers: {
+        'content-type': 'multipart/form-data',
+    }
+}
 
 export default {
     
@@ -34,8 +39,6 @@ export default {
             const response = await axios.get(`${URL_BASE}${RESOURCE}/${id}`)
 
             if(response.data){
-                console.log('loadProduct')
-                console.log(response.data)
                 return response.data
             } else {
                 this.$snotify.error('Erro ao carregar o produto', 'Erro')
@@ -49,13 +52,12 @@ export default {
         }
     },
     
-    async storeProduct(context, params) {
+    async storeProduct(context, formData) {
         context.commit('PRELOADER', true)
-        
+       
         try { 
-            const response = await axios.post(`${URL_BASE}${RESOURCE}`, params)
-            // console.log('storeProduct -> ' + JSON.stringify(response.data))
-
+            const response = await axios.post(`${URL_BASE}${RESOURCE}`, formData, CONFIGS)
+         
             context.commit('PRELOADER', false)
             
             return response                   
@@ -71,19 +73,19 @@ export default {
         } 
     },
     
-    async updateProduct(context, params) {
+    async updateProduct(context, formData) {
         context.commit('PRELOADER', true)
+
+        formData.append('_method', 'PUT')
         
         try { 
-            const response = await axios.put(`${URL_BASE}${RESOURCE}/${params.id}`, params)
-            console.log('updateProduct -> ' + JSON.stringify(response.data))
-
+            const response = await axios.post(`${URL_BASE}${RESOURCE}/${formData.get('id')}`, formData)
+        
             context.commit('PRELOADER', false)
             
             return response                   
         }
         catch (errors) {
-            console.log(errors.response.data.errors)
             context.commit('PRELOADER', false)
 
             return errors.response.data.errors

@@ -1,10 +1,21 @@
 <template>
 <div>
     <form class="form" @submit.prevent="onSubmit">
+        <div :class="['form-group', {'has-error' : errors.image}]">
+            <div v-if="errors.image">{{ errors.image[0] }}</div>
+            <div v-if="imagePreview" class="text-center">
+                <img :src="imagePreview" class="image-preview">
+                <button @click.prevent="removePreviewImage" class="btn btn-danger">Remover</button>
+            </div>
+            <div v-else>
+                <input type="file" class="form-control" @change="onFileChange">
+            </div>
+        </div>
+
         <!-- Se existir o atributo errors, então adiciona a classe-->
         <div :class="['form-group', {'has-error' : errors.name}]">
             <div v-if="errors.name">{{ errors.name[0] }}</div>
-            <input type="text" v-model="product.name" class="form-control" placeholder="Nome da Categoria">
+            <input type="text" v-model="product.name" class="form-control" placeholder="Nome do Produto">
         </div>
 
         <div :class="['form-group', {'has-error' : errors.description}]">
@@ -42,7 +53,9 @@ export default {
     },
     data() {
         return {
-            errors: {}
+            errors: {},
+            upload: null,
+            imagePreview: null,
         }
     },
     computed: {
@@ -53,12 +66,22 @@ export default {
     methods: {
         async onSubmit() {
             let action = this.update ? 'updateProduct' : 'storeProduct'
-            let msgSuccess =  this.update ? 'Sucesso ao atualizar!' : 'Sucesso ao cadastrar!'
+            let msgSuccess = this.update ? 'Sucesso ao atualizar!' : 'Sucesso ao cadastrar!'
 
-            const response = await this.$store.dispatch(action, this.product)
+            const formData = new FormData()
+            console.log(this.upload)
+            if (this.upload != null) {
+                formData.append('image', this.upload)
+            }
+
+            formData.append('id', this.product.id)
+            formData.append('name', this.product.name)
+            formData.append('description', this.product.description)
+            formData.append('category_id', this.product.category_id)
+
+            const response = await this.$store.dispatch(action, formData)
 
             if (response.data) {
-                console.log('teste data ' + JSON.stringify(response.data))
 
                 this.$snotify.success(msgSuccess)
 
@@ -66,7 +89,6 @@ export default {
 
                 this.$emit('success')
             } else {
-                console.log('teste data ' + JSON.stringify(response))
 
                 this.$snotify.error('Algo Errado', 'Erro')
 
@@ -77,14 +99,36 @@ export default {
         reset() {
             this.errors = {}
 
-            this.product = {
-                id: '',
-                name: '',
-                description: '',
-                //image: '',
-                category_id: '',
+            this.imagePreview = null
+            this.upload = null
+        },
+
+        onFileChange(e) {
+            let files = e.target.files || e.dataTransfer.files
+            if (!files.length)
+                return
+
+            this.upload = files[0]
+
+            this.previewImage(files[0])
+        },
+
+        previewImage(file) {
+            let reader = new FileReader()
+            reader.onload = (e) => {
+                this.imagePreview = e.target.result
             }
+            reader.readAsDataURL(file)
+        },
+
+        removePreviewImage() {
+            this.imagePreview = null
+            this.upload = null
         }
     }
 }
 </script>
+
+<style scoped>
+    .image-preview { max-width: 60px; }
+</style>

@@ -22,14 +22,18 @@
     <table class="table table-dark">
         <thead>
             <tr>
-                <th>Imagem</th>
+                <th width="150">Imagem</th>
                 <th>Nome</th>
                 <th width="200">Ações</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="product in products.data" :key="product.id">
-                <td>...</td>
+                <td>
+                    <div v-if="product.image">
+                        <img :src="[`/storage/products/${product.image}`]" :alt="product.name" class="img-list">
+                    </div>
+                </td>
                 <td>{{ product.name }}</td>
                 <td>
                     <a href="#" @click.prevent="edit(product.id)" class="btn btn-info">Editar</a>
@@ -65,7 +69,6 @@ export default {
                 id: '',
                 name: '',
                 description: '',
-                //image: '',
                 category_id: '',
             },
             update: false
@@ -133,7 +136,6 @@ export default {
                 id: '',
                 name: '',
                 description: '',
-                //image: '',
                 category_id: '',
             }
         },
@@ -161,5 +163,5 @@ export default {
 </script>
 
 <style scoped>
-
+    .img-list { max-width: 60px; }
 </style>
