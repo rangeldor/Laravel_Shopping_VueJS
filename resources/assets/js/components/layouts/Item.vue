@@ -7,14 +7,23 @@
         <div v-else>
             <img src="/imgs/no-img.png" :alt="item.name" class="img-list">
         </div>
-        {{ item.name }}
+       <p>{{ item.name }}</p>
     </router-link>
+
+    <button-cart :product="item" ></button-cart>
+
 </div>
 </template>
 
 <script>
+import ButtonCart from './ButtonCart'
+
 export default {
     props: ['item', 'path'],
+
+    components: {
+        ButtonCart
+    }
 }
 </script>
 
