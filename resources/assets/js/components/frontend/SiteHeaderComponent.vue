@@ -9,6 +9,9 @@
     <li class="nav-item">
         <router-link :to="{name: 'cart'}" class="nav-link">CARRINHO ({{ cart.length }})</router-link>
     </li>
+     <li class="nav-item">
+        <router-link :to="{name: 'login'}" class="nav-link">LOGIN</router-link>
+    </li>
 </ul>
 </template>
 
