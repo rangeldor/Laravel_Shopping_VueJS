@@ -22,7 +22,7 @@ const routes = [
         path: '/', 
         component: SiteComponent, 
         children: [
-            {path: 'login', component: LoginComponent, name: 'login'},
+            {path: 'login', component: LoginComponent, name: 'login', meta: {auth: false}},
             {path: 'carrinho', component: CartComponent, name: 'cart'},
             {path: 'produto/:id', component: ProductDetail, name: 'product.detail', props: true},
             {path: 'contato', component: ContactComponent, name: 'contact'},
@@ -50,12 +50,25 @@ const router = new VueRouter({
 
 // Cada rota passará por aqui antes
 router.beforeEach((to, from, next) => {
+    // Verifica se a pessoa está logada e se a rota pede autemticação
     if(to.meta.auth && !store.state.auth.authenticated) {
+        // Passa a url atual para o commit do auth.js poder retornar o usuário novamente para esta url
+        store.commit('CHANGE_URL_BACK', to.name)
+
+        // Envia o usuário para a rota de login
         return router.push({name: 'login'})
     }
 
     if(to.matched.some(record => record.meta.auth) && !store.state.auth.authenticated) {
+         // Passa a url atual para o commit do auth.js poder retornar o usuário novamente para esta url
+        store.commit('CHANGE_URL_BACK', to.name)
+
+        // Envia o usuário para a rota de login
         return router.push({name: 'login'})
+    }
+
+    if(to.meta.hasOwnProperty('auth') && !to.meta.auth && store.state.auth.authenticated) {
+        return router.push({name: 'admin.dashboard'})
     }
 
     next()
