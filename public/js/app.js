@@ -39309,7 +39309,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     actions: {
         login: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(context, params) {
-                var _response;
+                var _response, token;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
@@ -39327,28 +39327,33 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 context.commit('AUTH_USER_OK', _response.data.user);
 
-                                localStorage.setItem(__WEBPACK_IMPORTED_MODULE_1__config_configs__["a" /* NAME_TOKEN */], _response.data.token);
+                                token = _response.data.token;
+
+
+                                localStorage.setItem(__WEBPACK_IMPORTED_MODULE_1__config_configs__["a" /* NAME_TOKEN */], token);
+
+                                window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
                                 return _context.abrupt('return', _response);
 
-                            case 10:
-                                _context.prev = 10;
+                            case 12:
+                                _context.prev = 12;
                                 _context.t0 = _context['catch'](1);
 
                                 console.log(_context.t0);
 
-                            case 13:
-                                _context.prev = 13;
+                            case 15:
+                                _context.prev = 15;
 
                                 context.commit('PRELOADER', false);
-                                return _context.finish(13);
+                                return _context.finish(15);
 
-                            case 16:
+                            case 18:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 10, 13, 16]]);
+                }, _callee, this, [[1, 12, 15, 18]]);
             }));
 
             function login(_x, _x2) {
@@ -39461,7 +39466,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -39527,11 +39532,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
         totalCategories: function totalCategories() {
             return this.$store.state.categories.items.data.data;
+        },
+        me: function me() {
+            return this.$store.state.auth.me;
+        }
+    },
+
+    methods: {
+        logout: function logout() {
+            this.$store.dispatch('logout');
+
+            this.$router.push({ name: 'login' });
         }
     }
 });
@@ -39613,7 +39632,27 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("li", [
+        _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+          _vm._v(_vm._s(_vm.me.name) + " ("),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout($event)
+                }
+              }
+            },
+            [_vm._v("Sair")]
+          ),
+          _vm._v(")")
+        ])
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "container" }, [_c("router-view")], 1)
