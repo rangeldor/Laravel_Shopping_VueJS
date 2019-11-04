@@ -16,6 +16,7 @@
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">Acessar</button>
+                            <router-link :to="{name: 'register'}">Não tem cadastro? Registre-se!</router-link>
                         </div>
                     </form>
                 </div>
@@ -39,10 +40,14 @@ export default {
     methods: {
         async login() {
             const response = await this.$store.dispatch('login', this.formData)
-            if(response) {
-                this.$router.push({name: 'admin.dashboard'})
+            
+            if ( response.status == 200) {
+                this.$router.push({
+                    name: 'admin.dashboard'
+                })
+            } else {
+                this.$snotify.error('Dados inválidos', 'Falha ao acessar')
             }
-           
         }
     },
 }

@@ -9,10 +9,17 @@
     <li class="nav-item">
         <router-link :to="{name: 'cart'}" class="nav-link">CARRINHO ({{ cart.length }})</router-link>
     </li>
-     <li class="nav-item" v-if="me.name">
-        <router-link :to="{name: 'admin.dashboard'}" class="nav-link">Olá {{ me.name }}! (<a @click.prevent="logout">Sair</a>)</router-link>
+    <li class="nav-item dropdown show" v-if="me.name">
+        <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Olá {{ me.name }}!
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <router-link class="dropdown-item" :to="{name: 'profile'}">Meu Perfil</router-link>
+            <a class="dropdown-item" @click.prevent="logout">Sair</a>
+        </div>
     </li>
-     <li class="nav-item" v-else>
+    <li class="nav-item" v-else>
         <router-link :to="{name: 'login'}" class="nav-link">LOGIN</router-link>
     </li>
 </ul>
@@ -20,8 +27,8 @@
 
 <script>
 export default {
-    
-    computed: {        
+
+    computed: {
         cart() {
             return this.$store.state.cart.products
         },

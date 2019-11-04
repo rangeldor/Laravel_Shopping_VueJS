@@ -11,7 +11,7 @@
                 <router-link :to="{name: 'admin.categories' }" class="nav-link">Categorias </router-link>
             </li>
             <li>
-                <router-link :to="{name: 'admin.products'}" class="nav-link">Produtos</router-link>
+                <router-link :to="{name: 'admin.products'}" class="nav-link">Produtos ({{ totalProducts }})</router-link>
             </li>
             <li>
                 <a href="#" class="nav-link">{{ me.name }} (<a href="#" @click.prevent="logout">Sair</a>)</a>                
@@ -32,6 +32,10 @@ export default {
         
         me() {
             return this.$store.state.auth.me
+        },
+
+        totalProducts() {
+            return this.$store.state.products.items.total
         }
     },
 

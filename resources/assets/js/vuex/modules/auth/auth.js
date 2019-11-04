@@ -41,7 +41,7 @@ export default {
                 
                 return response
             } catch (error) {
-                console.log(error)
+                return error.response.data
             } finally {
                 context.commit('PRELOADER', false)
             }            
