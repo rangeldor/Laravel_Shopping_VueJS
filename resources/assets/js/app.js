@@ -21,5 +21,6 @@ const app = new Vue({
 });
 
 store.dispatch('loadCategories')
+store.dispatch('loadProducts')
 store.dispatch('checkLogin')
         .then(() => router.push({name: store.state.auth.urlBack}))

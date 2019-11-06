@@ -14,6 +14,9 @@
                 <router-link :to="{name: 'admin.products'}" class="nav-link">Produtos ({{ totalProducts }})</router-link>
             </li>
             <li>
+                <router-link :to="{name: 'products.reports'}" class="nav-link">Relatórios</router-link>
+            </li>
+            <li>
                 <a href="#" class="nav-link">{{ me.name }} (<a href="#" @click.prevent="logout">Sair</a>)</a>                
             </li>
         </ul>

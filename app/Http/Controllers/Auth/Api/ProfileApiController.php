@@ -35,8 +35,11 @@ class ProfileApiController extends Controller
         if($response['status'] != 200)
             return response()->json([$response['response']], $response['status']);
         
+        $data = $request->only('name', 'email', 'password');
+        $data['password'] = bcrypt($data['password'] );
+
         $user = $response['response'];
-        $user->update($request->all());
+        $user->update($data);
 
         return response()->json(compact('user'));
     }
