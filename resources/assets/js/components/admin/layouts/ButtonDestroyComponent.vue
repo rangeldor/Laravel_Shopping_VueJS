@@ -18,7 +18,7 @@ export default {
                 closeOnClick: true,
                 pauseOnHover: true,
                 buttons: [
-                    {text: 'Nao', action: (value) => {console.log('Não...'), this.$snotify.remove(value.id)}},
+                    {text: 'Nao', action: (value) => {this.$snotify.remove(value.id)}},
                     {text: 'Sim', action: (value) => {this.$emit('destroy', item.id), this.$snotify.remove(value.id)}}
                 ]
             })

@@ -58,11 +58,13 @@ export default {
                     if(response) {
                         context.commit('AUTH_USER_OK', response.data.user)
                     }
-                }                
+                }                 
 
                 return response
             } catch (error) {
-                console.log(error)
+                localStorage.removeItem(NAME_TOKEN)
+
+                return error
             } finally {
                 context.commit('PRELOADER', false)
             } 

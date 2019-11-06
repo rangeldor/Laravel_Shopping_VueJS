@@ -69,7 +69,7 @@ export default {
             let msgSuccess = this.update ? 'Sucesso ao atualizar!' : 'Sucesso ao cadastrar!'
 
             const formData = new FormData()
-            console.log(this.upload)
+            
             if (this.upload != null) {
                 formData.append('image', this.upload)
             }

@@ -10,13 +10,11 @@
       
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="{{ mix('/css/app.css') }}" />
+        <link rel="shortcut icon" href="{{ url('imgs/fivicon-vue.png') }}" type="image/png">
     </head>
     <body>
         <div id="app">
-            <vue-snotify></vue-snotify>
-
-            <preloader-component></preloader-component>                
-            <router-view></router-view>                
+            @yield('content')              
         </div>
 
         <script src="{{ mix('/js/app.js') }}"></script>

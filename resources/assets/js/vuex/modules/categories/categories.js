@@ -15,12 +15,10 @@ export default {
             
             try {       
                 const response = await axios.get('/api/v1/categories', {params})
-              //  console.log('actions ' + JSON.stringify( response.data) )
-                
+                    
                 await context.commit('LOAD_CATEGORIES', response)
             }
             catch (errors) {
-                console.log(errors)
                 return errors.response.data.errors
             }  
             finally {
@@ -48,11 +46,10 @@ export default {
             
             try { 
                 const response = await axios.post('/api/v1/categories', params)
-               // console.log('storeCategory -> ' + JSON.stringify(response.data))
+              
                 return response                   
             }
             catch (errors) {
-                console.log(errors.response.data.errors)
                 return errors.response.data.errors
             }  
             finally {
@@ -67,7 +64,6 @@ export default {
                 const response = await axios.put(`/api/v1/categories/${params.id}`, params)
                 return response
             } catch (errors) {
-                console.log(errors.response.data.errors)
                 return errors.response.data.errors
             } finally {
                 await context.commit('PRELOADER', false)

@@ -47,14 +47,10 @@ export default {
             const response = await this.$store.dispatch(action, this.category)
                       
             if(response.data) {
-                console.log('teste data ' + JSON.stringify(response.data))
-
                 this.$snotify.success('Sucesso ao cadastrar')
 
                 this.$router.push({ name: 'admin.categories'})
             }else {
-                 console.log('teste data ' + JSON.stringify(response))
-
                  this.$snotify.error('Algo errado')
 
                  this.errors = response

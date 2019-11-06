@@ -2,12 +2,12 @@
 <div>
     <div v-if="notCart">
         <button class="btn btn-info" @click.prevent="addCart">
-            Adicionar Carrinho
+            <icon name="shopping-cart"></icon> Adicionar Carrinho
         </button>
     </div>
     <div v-else>
         <button class="btn btn-danger" @click.prevent="removeCart">
-            Remover Carrinho
+            <icon name="lock"></icon> Remover Carrinho
         </button>
     </div>
 </div>

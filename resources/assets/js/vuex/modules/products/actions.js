@@ -22,7 +22,7 @@ export default {
             //"context.commit('')" Envia para um mutation
             context.commit('LOAD_PRODUCTS', response.data)
         } catch (error) {
-            console.log(error)
+            return error
         } finally {
             // Finaliza o preloader
             context.commit('PRELOADER', false)
@@ -45,7 +45,7 @@ export default {
             }
             
         } catch (error) {
-            console.log(error)
+            return error
         } finally {
             // Finaliza o preloader
             context.commit('PRELOADER', false)
@@ -63,7 +63,6 @@ export default {
             return response                   
         }
         catch (errors) {
-            console.log(errors.response.data.errors)
             context.commit('PRELOADER', false)
 
             return errors.response.data.errors

@@ -68,7 +68,7 @@ export default {
                 showProgressBar: true,
                 closeOnClick: true,
                 buttons: [
-                    { text: 'Não', action: (value) => {console.log('Não deletou...'), this.$snotify.remove(value.id)} },
+                    { text: 'Não', action: (value) => {this.$snotify.remove(value.id)} },
                     { text: 'Sim', action: (value) => {this.destroy(category), this.$snotify.remove(value.id)} }
                 ]
             })    
@@ -83,7 +83,6 @@ export default {
                 this.loadCategories()
             })
             .catch(error => {
-                console.log(error)
                 this.$snotify.error('Erro ao deletar a categoria', 'Falha')
             })
         },

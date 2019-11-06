@@ -35,7 +35,7 @@ export default {
 
                 this.product = product
             } catch (error) {
-                console.log(error)
+                return error
             }
         }
     },
