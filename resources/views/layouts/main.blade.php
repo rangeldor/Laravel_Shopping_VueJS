@@ -10,7 +10,7 @@
       
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="{{ mix('/css/app.css') }}" />
-        <link rel="shortcut icon" href="{{ url('imgs/fivicon-vue.png') }}" type="image/png">
+        <link rel="shortcut icon" href="{{ url('imgs/favicon-vue.png') }}" type="image/png">
     </head>
     <body>
         <div id="app">
