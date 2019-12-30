@@ -8,13 +8,16 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Snotify
+// Snotify ( Notificação )
 @import "~vue-snotify/styles/material";
 
-// Vodal
+// Vodal ( Modal )
 //OBS: Precisa colocar o "~", pois ele especifica que o pacote está dentro do node_modules
 @import "~vodal/common.css";
 @import "~vodal/rotate.css";
+
+// Menu lateral principal
+@import '~vue-sidebar-menu/dist/vue-sidebar-menu.css';
 
 .navbar-laravel {
   background-color: #fff;

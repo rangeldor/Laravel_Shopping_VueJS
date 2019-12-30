@@ -3,6 +3,9 @@ window.Vue = require('vue');
 import Snotify from 'vue-snotify'
 import VueAwesome from 'vue-awesome'
 
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 import router from './routes/routers'
 import store from './vuex/store'
 
