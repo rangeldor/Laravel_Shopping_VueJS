@@ -1,9 +1,11 @@
 <template>
 <div>
-    <sidebar-menu :menu="menu" width="300px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" />
+    <sidebar-menu :menu="menu" width="300px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" @toggle-collapse="onToggleCollapse"/>
 
     <div class="container">
-        <router-view></router-view>
+        <fade-transition>
+            <router-view></router-view>
+        </fade-transition>
     </div>
 </div>
 <!--  <div>
@@ -37,10 +39,14 @@
 import {
     SidebarMenu
 } from 'vue-sidebar-menu'
+import {
+    FadeTransition
+} from 'vue2-transitions'
 
 export default {
     components: {
-        SidebarMenu
+        SidebarMenu,
+        FadeTransition
     },
 
     data() {
@@ -81,7 +87,7 @@ export default {
                         class: 'fa fa-user',
                     },
                     badge: {
-                        text: '30' ,
+                        text: '30',
                         class: 'vsm--badge_default'
                     },
                 },
@@ -116,8 +122,8 @@ export default {
                         text: "30",
                         class: 'vsm--badge_default'
                     },
-                },   
-                
+                },
+
                 // logout
                 {
                     href: '#',
@@ -137,9 +143,7 @@ export default {
             theme: '',
 
             // SiteBar collapsed ( true para ficar colapsado e false para ficar expandido)
-            collapsed: false,
-
-            totalCat: 20
+            collapsed: true,
         }
     },
 
@@ -166,11 +170,14 @@ export default {
             })
         },
 
+        onToggleCollapse(collapsed) {
+            this.collapsed = collapsed            
+        },
+
         onItemClick(event, item) {
+            if (!this.collapsed) this.onToggleCollapse(true)
 
-            if(item.title == 'Sair') this.logout()
-
-            this.collapsed = true    
+            if (item.title == 'Sair') this.logout()
         }
     },
 }
