@@ -46,14 +46,20 @@
                                         <div class="dropdown__menu-text">Personal info</div>
                                     </a>
                                 </li>
+
                                 <li class="dropdown__menu-item">
                                     <a href="#" @click.prevent="changeTheme()" class="dropdown__menu-link" title="Tema">
                                         <div class="dropdown__menu-svg">
                                             <icon name="images" scale="1.5"></icon>
                                         </div>
-                                        <div class="dropdown__menu-text">Tema {{ theme == '' ? 'Dark' : 'White' }}</div>
+                                        <fade-transition group>
+                                            <div :key="1" class="dropdown__menu-text" v-show="themeChanged == '' ? true : false">Tema White</div>
+                                           
+                                            <div :key="2" class="dropdown__menu-text" v-show="themeChanged == 'white-theme' ? true : false">Tema Dark</div>
+                                        </fade-transition>
                                     </a>
                                 </li>
+
                                 <li class="dropdown__menu-item">
                                     <a href="#" class="dropdown__menu-link" title="Data &amp; personalization">
                                         <div class="dropdown__menu-svg">
@@ -118,7 +124,16 @@
 </template>
 
 <script>
+import {
+    FadeTransition
+} from 'vue2-transitions'
+
 export default {
+
+    components: {
+        FadeTransition,
+    },
+
     props: {
         theme: {
             required: true,
@@ -130,24 +145,26 @@ export default {
     data() {
         return {
             show: false,
+            themeChanged: ''
         }
     },
 
     methods: {
         changeTheme() {
-            if (this.theme == '') {
-                this.theme = 'white-theme'
+            if (this.themeChanged == '') {
+                this.themeChanged = 'white-theme'
             } else {
-                this.theme = ''
+                this.themeChanged = ''
             }
-            
-            this.$emit('changeTheme', this.theme)
+
+            this.$emit('changeTheme', this.themeChanged)
         }
     },
 
     watch: {
         theme() {
-            if (this.theme == 'white-theme') this.theme = 'white-theme'
+            if (this.theme == '') this.themeChanged = ''
+            if (this.theme == 'white-theme') this.themeChanged = 'white-theme'
         }
     }
 }
@@ -176,6 +193,10 @@ body {
 
 ul {
     list-style: none;
+}
+
+.dropdown__menu-nav {
+    background-color: #fbfbfb;
 }
 
 hr {

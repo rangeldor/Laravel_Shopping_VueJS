@@ -1,6 +1,6 @@
 <template>
 <div>
-    <sidebar-menu :menu="menu" width="300px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" @toggle-collapse="onToggleCollapse" />
+    <sidebar-menu :menu="menu" width="250px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" @toggle-collapse="onToggleCollapse" />
 
     <div class="container-fluid text-right">
         <menu-config-component :theme="theme" @changeTheme="changeTheme" />
@@ -73,8 +73,8 @@ export default {
                     },
                     title: 'Home',
                     icon: {
-                        element: 'span',
                         class: 'fas fa-home',
+
                     },
                     badge: {
                         text: "30",
@@ -89,7 +89,6 @@ export default {
                     },
                     title: 'Categorias',
                     icon: {
-                        element: 'span',
                         class: 'fa fa-user',
                     },
                     badge: {
@@ -105,7 +104,6 @@ export default {
                     },
                     title: 'Produtos',
                     icon: {
-                        element: 'span',
                         class: 'fa fa-user',
                     },
                     badge: {
@@ -121,7 +119,6 @@ export default {
                     },
                     title: 'Relatórios',
                     icon: {
-                        element: 'span',
                         class: 'fa fa-user',
                     },
                     badge: {
@@ -135,7 +132,6 @@ export default {
                     href: '#',
                     title: 'Sair',
                     icon: {
-                        element: 'i',
                         class: 'fas fa-sign-out-alt',
                     },
                     badge: {
@@ -187,12 +183,19 @@ export default {
         },
 
         changeTheme(theme) {
-            this.theme = theme            
+            this.theme = theme
         }
     },
 }
 </script>
 
-<style scoped>
+<style>
+.v-sidebar-menu .vsm--title {
+    font-size: 15px;
+}
 
+.v-sidebar-menu .vsm--icon {
+    width: 25px !important;
+    height: 25px !important;
+}
 </style>
