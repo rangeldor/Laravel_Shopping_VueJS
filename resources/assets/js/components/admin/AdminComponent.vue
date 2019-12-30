@@ -1,6 +1,10 @@
 <template>
 <div>
-    <sidebar-menu :menu="menu" width="300px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" @toggle-collapse="onToggleCollapse"/>
+    <sidebar-menu :menu="menu" width="300px" :theme="theme" :collapsed="collapsed" @item-click="onItemClick" @toggle-collapse="onToggleCollapse" />
+
+    <div class="container-fluid text-right">
+        <menu-config-component :theme="theme" @changeTheme="changeTheme" />
+    </div>
 
     <div class="container">
         <fade-transition>
@@ -42,11 +46,13 @@ import {
 import {
     FadeTransition
 } from 'vue2-transitions'
+import MenuConfigComponent from './layouts/MenuConfigComponent'
 
 export default {
     components: {
         SidebarMenu,
-        FadeTransition
+        FadeTransition,
+        MenuConfigComponent
     },
 
     data() {
@@ -171,13 +177,17 @@ export default {
         },
 
         onToggleCollapse(collapsed) {
-            this.collapsed = collapsed            
+            this.collapsed = collapsed
         },
 
         onItemClick(event, item) {
             if (!this.collapsed) this.onToggleCollapse(true)
 
             if (item.title == 'Sair') this.logout()
+        },
+
+        changeTheme(theme) {
+            this.theme = theme            
         }
     },
 }
